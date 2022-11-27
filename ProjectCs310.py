@@ -2,7 +2,7 @@ def register() :
     print("=" * 86)
     print("%s %s %s" % (" "*35,"REGISTER"," "*37))
     print("=" * 86)
-    with open("data.txt", "a") as file:
+    with open("userdata.txt", "a") as file:
         first_name, last_name = input("Enter Name Surname : ").split()
         while True:
             id_card = input("Enter ID card [13 digits] : ")
@@ -17,7 +17,7 @@ def register() :
                 print("ID card False !")
                 print("Please try again")
 
-        file.write("%s %s %s\n" % (first_name,last_name,str((ord(first_name[0])+ord(last_name[1]))) + id_card[7] + id_card[3] + id_card[6] + id_card[8] + id_card[5] + id_card[12] + id_card[1]))
+        file.write("%s %-20s %-20s %s\n" % (first_name,last_name,id_card,str((ord(first_name[0])+ord(last_name[1]))) + id_card[7] + id_card[3] + id_card[6] + id_card[8] + id_card[5] + id_card[12] + id_card[1]))
 
         print("Register Complete")
 
@@ -28,9 +28,11 @@ def add_product() :
     print("=" * 86)
     with open("product.txt", "a") as file:
         product_name = input("Enter Product Name : ")
-        product_price = input("Enter Product Price : ")
         product_quantity = input("Enter Product Quantity : ")
-        file.write("%s %s %s\n" % (product_name,product_price,product_quantity))
+        product_price = input("Enter Product Price : ")
+        file.write("%-20s %-20s %s\n" % (product_name,product_quantity,product_price))
+        
+    print("Add Product Complete")
 
 def show_product() :
     print("=" * 86)
@@ -62,3 +64,5 @@ def sale_product() :
             if product_name in line:
                 print(line)
                 print("Sale Complete")
+
+add_product()

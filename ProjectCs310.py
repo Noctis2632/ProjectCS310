@@ -1,3 +1,6 @@
+user_list = []
+product_list = []
+
 def register() :
     print("=" * 86)
     print("%s %s %s" % (" "*35,"REGISTER"," "*37))
@@ -21,18 +24,47 @@ def register() :
 
         print("Register Complete")
 
+# def delete_user() :
+#     print("=" * 86)
+#     print("%s %s %s" % (" "*35,"DELETE USER"," "*35))
+#     print("=" * 86)
+#     id_card = input("Enter ID card : ")
+#     with open("userdata.txt", "r") as file:
+#         data = file.read().splitlines()
+#         for line in data:
+#             item = line.split()
+#             # print(item)
+#             user_list.append(item)
+#     for i in range(len(user_list)):
+#         if id_card in user_list[i]:
+#             user_list.pop(i)
+#             break
+#     with open("userdata.txt", "w") as file:
+#         for i in range(len(user_list)):
+#             file.write("%s %-20s %-20s %s\n" % (user_list[i][0],user_list[i][1],user_list[i][2],user_list[i][3]))
+
+def append_product_list() :
+    with open("product.txt", "r") as file:
+        data = file.read().splitlines()
+        for line in data:
+            item = line.split()
+            # print(item)
+            product_list.append(item)
  
-def add_product() :
+def addstock_product() :
     print("=" * 86)
     print("%s %s %s" % (" "*35,"PRODUCT"," "*39))
     print("=" * 86)
-    with open("product.txt", "a") as file:
-        product_name = input("Enter Product Name : ")
-        product_quantity = input("Enter Product Quantity : ")
-        product_price = input("Enter Product Price : ")
-        file.write("%-20s %-20s %s\n" % (product_name,product_quantity,product_price))
-        
-    print("Add Product Complete")
+    product_name = input("Enter Product Name : ")
+    product_quantity = input("Enter Product Quantity : ")
+    for i in range(len(product_list)):
+        if product_name in product_list[i]:
+            product_list[i][2] = int(product_list[i][2]) + int(product_quantity)
+            # print(product_list[i])
+    with open("product.txt", "w") as file:
+        for i in range(len(product_list)):
+            file.write("%-13s %-23s %20s %28s\n" % (product_list[i][0],product_list[i][1],product_list[i][2],product_list[i][3]))
+    print("Add Stock Product Complete")
 
 def show_product() :
     print("=" * 86)
@@ -46,7 +78,7 @@ def show_user() :
     print("=" * 86)
     print("%s %s %s" % (" "*35,"USER"," "*41))
     print("=" * 86)
-    with open("data.txt", "r") as file:
+    with open("userdata.txt", "r") as file:
         for line in file:
             print(line)
 
@@ -54,15 +86,20 @@ def sale_product() :
     print("=" * 86)
     print("%s %s %s" % (" "*35,"SALE"," "*41))
     print("=" * 86)
-    with open("product.txt", "r") as file:
-        for line in file:
-            print(line)
-    with open("product.txt", "r") as file:
-        product_name = input("Enter Product Name : ")
-        product_quantity = input("Enter Product Quantity : ")
-        for line in file:
-            if product_name in line:
-                print(line)
-                print("Sale Complete")
+    code_number = input("Enter Code Number : ")
+    product_quantity = input("Enter Product Quantity : ")
+    for i in range(len(product_list)):
+        if code_number in product_list[i]:
+            product_list[i][2] = int(product_list[i][2]) - int(product_quantity)
+            # print(product_list[i])
+    with open("product.txt", "w") as file:
+        for i in range(len(product_list)):
+            file.write("%-13s %-23s %20s %28s\n" % (product_list[i][0],product_list[i][1],product_list[i][2],product_list[i][3]))
 
-add_product()
+
+# with open("product.txt", "a") as file:
+#     codename = input("Enter Code Name : ")
+#     product_name = input("Enter Product Name : ")
+#     product_quantity = input("Enter Product Quantity : ")
+#     product_price = input("Enter Product Price : ")
+#     file.write("%-13s %-23s %20s %28s\n" % (codename,product_name,product_quantity,product_price))

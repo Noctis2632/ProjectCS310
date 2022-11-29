@@ -1,2 +1,7 @@
 Name               Surname               ID_Card                        ID_Member
 Pitsanukorn        Malaipia              1739901926141                  1779912017
+Chatchai           Suwanpiti             3523768656560                  1846385605
+Thammarat          Posamran              5138645786451                  1957858411
+Prisana            Jaroentip             8616704127640                  1771642006
+Kongyot            Rattanaatid           7413482571400                  1725327804
+Menila             Weerakittana          8641247765571                  1787176416

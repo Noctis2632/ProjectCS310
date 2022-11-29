@@ -1,7 +1,4 @@
 user_list = []
-# user_name = []
-# user_surname = []
-# user_idcard = []
 user_idmember = []
 product_list = []
 p_code = []
@@ -11,17 +8,21 @@ p_price = []
 calculate_list = []
 
 def user_lists() : # เพิ่มข้อมูลสมาชิกลงlist
+    user_list.clear()
+    user_idmember.clear()
     with open("userdata.txt", "r") as file:
         data = file.read().splitlines()
         for line in data:
             item = line.split()
             user_list.append(item)
-            # user_name.append(item[0])
-            # user_surname.append(item[1])
-            # user_idcard.append(item[2])
             user_idmember.append(item[3])
 
 def product_lists() : # เพิ่มข้อมูลสินค้าลงlist
+    product_list.clear()
+    p_code.clear()
+    p_name.clear()
+    p_quantity.clear()
+    p_price.clear()
     with open("product.txt", "r") as file:
         data = file.read().splitlines()
         for line in data:
@@ -62,7 +63,7 @@ def register() :   # สมัครสมาชิก
 
 def delete_member() : # ลบข้อมูลสมาชิก
     print("=" * 86)
-    print("%s %s %s" % (" "*35,"DELETE EMPLOYEE"," "*37))
+    print("%s %s %s" % (" "*31,"DELETE MEMBER"," "*37))
     print("=" * 86)
     ch = "Y"
     while ch != "N" :
@@ -80,7 +81,7 @@ def delete_member() : # ลบข้อมูลสมาชิก
 
 def addstock_product() :
     print("=" * 86)
-    print(" "*35,"PRODUCT"," "*39)
+    print(" "*32,"ADD STOCK PRODUCT"," "*39)
     print("=" * 86)
     ch = "Y"
     while ch != "N" :
@@ -101,7 +102,7 @@ def addstock_product() :
 
 def show_user() : # แสดงข้อมูลสมาชิก
     print("=" * 86)
-    print(" "*35,"USER"," "*41)
+    print(" "*35,"USERDATA"," "*41)
     print("=" * 86)
     with open("userdata.txt", "r") as file:
         for line in file:
@@ -163,7 +164,7 @@ def receipt() : # ใบเสร็จ
     for i in range(len(calculate_list)):
         print("%-30s %20s %30s" % (calculate_list[i][0],calculate_list[i][1],calculate_list[i][2]))
     print("=" * 86)
-    print("%50s %s" % (("total price : "),(sum(calculate_list[i][2] for i in range(len(calculate_list))))))
+    print("%45s %s" % (("total price : "),(sum(calculate_list[i][2] for i in range(len(calculate_list))))))
 
 def menu () : # หน้าเมนู
     print("=" * 86)
@@ -172,7 +173,7 @@ def menu () : # หน้าเมนู
     print("1. Register")
     print("2. Delete Member")
     print("3. Add Stock Product")
-    print("4. Show User")
+    print("4. Show UserData")
     print("5. Show Product")
     print("6. Sell Product")
     print("7. Exit")
@@ -180,23 +181,14 @@ def menu () : # หน้าเมนู
 
 def welcome() : # หน้ายินดีต้อนรับ
     print("=" * 86)
-    print(" "*28,"Welcome To Shop System"," "*39)
-    print("=" * 86)
-
-# สมัครสมาชิก
-# ลบสมาชิก
-# เพิ่มจำนวนสินค้า
-# แสดงสินค้า
-# แสดงสมาชิก
-# ขายสินค้า
-# คำนวณราคา
+    print(" "*30,"WELCOME TO SHOP SYSTEM"," "*39)
 
 def main() :
     welcome()
-    user_lists()
-    product_lists()
     choice = 0
     while choice != "7" :
+        user_lists()
+        product_lists()
         menu ()
         choice = input("Enter your choice : ")
         if choice == "1":
@@ -219,6 +211,6 @@ def main() :
         else:
             print("Error")
 
-
-
+print(" "*35,"USERDATA"," "*41)
+print(" "*32,"ADD STOCK PRODUCT"," "*39)
 main()

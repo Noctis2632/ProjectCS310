@@ -1,3 +1,2 @@
 Name               Surname               ID_Card                        ID_Member
 Pitsanukorn        Malaipia              1739901926141                  1779912017
-Maree              mana                  5817783263759                  1742736898

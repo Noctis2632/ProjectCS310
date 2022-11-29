@@ -1,5 +1,13 @@
 user_list = []
+# user_name = []
+# user_surname = []
+# user_idcard = []
+user_idmember = []
 product_list = []
+p_code = []
+p_name = []
+p_quantity = []
+p_price = []
 calculate_list = []
 
 def user_lists() : # เพิ่มข้อมูลสมาชิกลงlist
@@ -8,6 +16,10 @@ def user_lists() : # เพิ่มข้อมูลสมาชิกลงli
         for line in data:
             item = line.split()
             user_list.append(item)
+            # user_name.append(item[0])
+            # user_surname.append(item[1])
+            # user_idcard.append(item[2])
+            user_idmember.append(item[3])
 
 def product_lists() : # เพิ่มข้อมูลสินค้าลงlist
     with open("product.txt", "r") as file:
@@ -15,6 +27,10 @@ def product_lists() : # เพิ่มข้อมูลสินค้าล�
         for line in data:
             item = line.split()
             product_list.append(item)
+            p_code.append(item[0])
+            p_name.append(item[1])
+            p_quantity.append(item[2])
+            p_price.append(item[3])
 
 def register() :   # สมัครสมาชิก
     print("=" * 86)
@@ -44,41 +60,44 @@ def register() :   # สมัครสมาชิก
 
         print("Register Complete")
 
-def delete_member() : # ลบสมาชิก   ทำNot found ไม่ได้
+def delete_member() : # ลบข้อมูลสมาชิก
     print("=" * 86)
-    print(" "*35,"DELETE MEMBER"," "*35)
+    print("%s %s %s" % (" "*35,"DELETE EMPLOYEE"," "*37))
     print("=" * 86)
     ch = "Y"
     while ch != "N" :
         id_member = input("Enter ID Member : ")
-        for i in range(len(user_list)):
-            if id_member in user_list[i]:
-                user_list.pop(i)
-                print("Delete Member Complete")
-                break
+        while id_member not in user_idmember:
+            print("ID Member Not found")
+            id_member = input("Enter ID Member : ")
+        index = user_idmember.index(id_member)
+        user_list.pop(index)
+        print("Delete Member Complete")
         with open("userdata.txt", "w") as file:
             for i in range(len(user_list)):
                 file.write("%-18s %-21s %-30s %s\n" % (user_list[i][0],user_list[i][1],user_list[i][2],user_list[i][3]))
         ch = input("Do you want to delete again ? [Y/N] : ").upper()
-    
 
-def addstock_product() : # เพิ่มสินค้า ทำNot found ไม่ได้
+def addstock_product() :
     print("=" * 86)
     print(" "*35,"PRODUCT"," "*39)
     print("=" * 86)
     ch = "Y"
     while ch != "N" :
         product_name = input("Enter Product Name : ")
-        for i in range(len(product_list)):
-            if product_name in product_list[i]:
-                product_quantity = input("Enter Product Quantity : ")
-                product_list[i][2] = int(product_list[i][2]) + int(product_quantity)
-                print("Add Stock Product Complete")
+        while product_name not in p_name:
+            print("Product Not found")
+            product_name = input("Enter Product Name : ")
+        index = p_name.index(product_name)
+        product_quantity = input("Enter Product Quantity : ")
+        p_quantity[index] = int(p_quantity[index]) + int(product_quantity)
+        print("Add Stock Complete")
+
         with open("product.txt", "w") as file:
-            for i in range(len(product_list)):
-                file.write("%-13s %-23s %20s %27s\n" % (product_list[i][0],product_list[i][1],product_list[i][2],product_list[i][3]))
-    
-    ch = input("Do you want to add stock again ? [Y/N] : ").upper()
+            for i in range(len(p_name)):
+                file.write("%-13s %-23s %20s %27s\n" % (p_code[i],p_name[i],p_quantity[i],p_price[i]))
+
+        ch = input("Do you want to add stock again ? [Y/N] : ").upper()
 
 def show_user() : # แสดงข้อมูลสมาชิก
     print("=" * 86)
@@ -104,15 +123,20 @@ def calculate() : # คำนวณราคาสินค้า ทำNot foun
     ch = "Y"
     while ch != "N" :
         code_number = input("Enter Code Number : ")
-        for i in range(len(product_list)):
-            if code_number in product_list[i]:
-                product_quantity = input("Enter Product Quantity : ")
-                calculate_list.append([product_list[i][1],product_quantity,(int(product_list[i][3])*int(product_quantity))])
-                product_list[i][2] = int(product_list[i][2]) - int(product_quantity)
+        while code_number not in p_code:
+            print("Code Number Not found")
+            code_number = input("Enter Code Number : ")
+        index = p_code.index(code_number)
+        product_quantity = input("Enter Product Quantity : ")
+        p_quantity[index] = int(p_quantity[index]) - int(product_quantity)
+        for i in range(len(p_name)):
+            if p_code[i] == code_number:
+                calculate_list.append([p_name[i],product_quantity,p_price[i]])
+        print("Calculate Complete")
 
-            with open("product.txt", "w") as file:
-                for i in range(len(product_list)):
-                    file.write("%-13s %-23s %20s %27s\n" % (product_list[i][0],product_list[i][1],product_list[i][2],product_list[i][3]))
+        with open("product.txt", "w") as file:
+            for i in range(len(p_name)):
+                file.write("%-13s %-23s %20s %27s\n" % (p_code[i],p_name[i],p_quantity[i],p_price[i]))
     
         ch = input("Do you want to calculate again ? [Y/N] : ").upper()
 
@@ -123,13 +147,13 @@ def dicount() : # คำนวณส่วนลด
     mem = input("Do you have ID Member ? [Y/N] : ").upper()
     if mem == "Y":
         id_member = input("Enter ID Member : ")
-        for i in range(len(user_list)):
-            if id_member in user_list[i]:
-                for j in range(len(calculate_list)):
-                    calculate_list[j][2] = int(calculate_list[j][2]) - int(calculate_list[j][2]) * 0.15
-            else:
-                print("ID Member False !")
-                print("Please try again")
+        while id_member not in user_idmember:
+            print("ID Member Not found")
+            id_member = input("Enter ID Member : ")
+        for i in range(len(calculate_list)):
+            calculate_list[i][2] = int(calculate_list[i][2]) - int(calculate_list[i][2]) * 0.15
+        print("Discount Complete")
+
                     
 def receipt() : # ใบเสร็จ
     print("=" * 86)
@@ -139,7 +163,7 @@ def receipt() : # ใบเสร็จ
     for i in range(len(calculate_list)):
         print("%-30s %20s %30s" % (calculate_list[i][0],calculate_list[i][1],calculate_list[i][2]))
     print("=" * 86)
-    print("%45s %s" % (("Total Price : ") ,(sum(int(calculate_list[i][2]) for i in range(len(calculate_list))))))
+    print("%50s %s" % (("total price : "),(sum(calculate_list[i][2] for i in range(len(calculate_list))))))
 
 def menu () : # หน้าเมนู
     print("=" * 86)
@@ -153,7 +177,12 @@ def menu () : # หน้าเมนู
     print("6. Sell Product")
     print("7. Exit")
     print("=" * 86)
-        
+
+def welcome() : # หน้ายินดีต้อนรับ
+    print("=" * 86)
+    print(" "*28,"Welcome To Shop System"," "*39)
+    print("=" * 86)
+
 # สมัครสมาชิก
 # ลบสมาชิก
 # เพิ่มจำนวนสินค้า
@@ -163,9 +192,10 @@ def menu () : # หน้าเมนู
 # คำนวณราคา
 
 def main() :
-    choice = 0
+    welcome()
     user_lists()
     product_lists()
+    choice = 0
     while choice != "7" :
         menu ()
         choice = input("Enter your choice : ")

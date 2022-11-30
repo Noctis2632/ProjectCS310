@@ -53,13 +53,16 @@ def register() :   # สมัครสมาชิก
                 else:
                     print("ID card False !")
                     print("Please try again")
-
+            
+            print("-" * 86)
             file.write("%-18s %-21s %-30s %s\n" % (first_name,last_name,id_card,str((ord(first_name[0])+ord(last_name[1]))) + id_card[7] + id_card[3] + id_card[6] + id_card[8] + id_card[5] + id_card[12] + id_card[1]))
             print("Your ID Member is",str((ord(first_name[0])+ord(last_name[1]))) + id_card[7] + id_card[3] + id_card[6] + id_card[8] + id_card[5] + id_card[12] + id_card[1])
+            print("-" * 86)
 
             ch = input("Do you want to register again ? [Y/N] : ").upper()
+            print("-" * 86)
 
-        print("Register Complete")
+        print(" "*31,"Register Complete")
 
 def delete_member() : # ลบข้อมูลสมาชิก
     print("=" * 86)
@@ -73,7 +76,9 @@ def delete_member() : # ลบข้อมูลสมาชิก
             id_member = input("Enter ID Member : ")
         index = user_idmember.index(id_member)
         user_list.pop(index)
-        print("Delete Member Complete")
+        print("-" * 86)
+        print(" "*26,"Delete Member Complete")
+        print("-" * 86)
         with open("userdata.txt", "w") as file:
             for i in range(len(user_list)):
                 file.write("%-18s %-21s %-30s %s\n" % (user_list[i][0],user_list[i][1],user_list[i][2],user_list[i][3]))
@@ -86,19 +91,22 @@ def addstock_product() :
     ch = "Y"
     while ch != "N" :
         product_name = input("Enter Product Name : ")
-        while product_name not in p_name:
+        while product_name not in p_name: 
             print("Product Not found")
             product_name = input("Enter Product Name : ")
         index = p_name.index(product_name)
         product_quantity = input("Enter Product Quantity : ")
-        p_quantity[index] = int(p_quantity[index]) + int(product_quantity)
-        print("Add Stock Complete")
+        p_quantity[index] = int(p_quantity[index]) + int(product_quantity)  # บวกจำนวนสินค้าเข้าไปในlist
+        print("-" * 86)
+        print(" "*32,"Add Stock Complete")
+        print("-" * 86)
 
         with open("product.txt", "w") as file:
             for i in range(len(p_name)):
                 file.write("%-13s %-23s %20s %27s\n" % (p_code[i],p_name[i],p_quantity[i],p_price[i]))
 
         ch = input("Do you want to add stock again ? [Y/N] : ").upper()
+        print("-" * 86)
 
 def show_user() : # แสดงข้อมูลสมาชิก
     print("=" * 86)
@@ -129,23 +137,27 @@ def calculate() : # คำนวณราคาสินค้า ทำNot foun
             code_number = input("Enter Code Number : ")
         index = p_code.index(code_number)
         product_quantity = input("Enter Product Quantity : ")
-        p_quantity[index] = int(p_quantity[index]) - int(product_quantity)
+        p_quantity[index] = int(p_quantity[index]) - int(product_quantity)  # ลบจำนวนสินค้าออกจากlist
         for i in range(len(p_name)):
             if p_code[i] == code_number:
                 calculate_list.append([p_name[i],product_quantity,p_price[i]])
-        print("Calculate Complete")
+        print("-" * 86)
+        print(" "*30,"Calculate Complete")
+        print("-" * 86)
 
         with open("product.txt", "w") as file:
             for i in range(len(p_name)):
                 file.write("%-13s %-23s %20s %27s\n" % (p_code[i],p_name[i],p_quantity[i],p_price[i]))
     
         ch = input("Do you want to calculate again ? [Y/N] : ").upper()
+        print("-" * 86)
 
 def dicount() : # คำนวณส่วนลด
     print("=" * 86)
     print(" "*35,"DISCOUNT"," "*37)
     print("=" * 86)
     mem = input("Do you have ID Member ? [Y/N] : ").upper()
+    print("-" * 86)
     if mem == "Y":
         id_member = input("Enter ID Member : ")
         while id_member not in user_idmember:
@@ -153,7 +165,9 @@ def dicount() : # คำนวณส่วนลด
             id_member = input("Enter ID Member : ")
         for i in range(len(calculate_list)):
             calculate_list[i][2] = int(calculate_list[i][2]) - int(calculate_list[i][2]) * 0.15
-        print("Discount Complete")
+        print("-" * 86)
+        print(" "*30,"Discount Complete")
+        print("-" * 86)
 
                     
 def receipt() : # ใบเสร็จ
@@ -165,6 +179,7 @@ def receipt() : # ใบเสร็จ
         print("%-30s %20s %30s" % (calculate_list[i][0],calculate_list[i][1],calculate_list[i][2]))
     print("=" * 86)
     print("%45s %s" % (("total price : "),(sum(calculate_list[i][2] for i in range(len(calculate_list))))))
+    print("-" * 86)
 
 def menu () : # หน้าเมนู
     print("=" * 86)
@@ -183,34 +198,32 @@ def welcome() : # หน้ายินดีต้อนรับ
     print("=" * 86)
     print(" "*30,"WELCOME TO SHOP SYSTEM"," "*39)
 
-def main() :
-    welcome()
-    choice = 0
-    while choice != "7" :
-        user_lists()
-        product_lists()
-        menu ()
-        choice = input("Enter your choice : ")
-        if choice == "1":
-            register()
-        elif choice == "2":
-            delete_member()
-        elif choice == "3":
-            addstock_product()
-        elif choice == "4":
-            show_user()
-        elif choice == "5":
-            show_product()
-        elif choice == "6":
-            show_product()
-            calculate()
-            dicount()
-            receipt()
-        elif choice == "7":
-            print("Exit Program")
-        else:
-            print("Error")
 
-print(" "*35,"USERDATA"," "*41)
-print(" "*32,"ADD STOCK PRODUCT"," "*39)
-main()
+welcome()
+choice = 0
+while choice != "7" :
+    user_lists()
+    product_lists()
+    menu ()
+    choice = input("Enter your choice : ")
+    if choice == "1":
+        register()
+    elif choice == "2":
+        delete_member()
+    elif choice == "3":
+        addstock_product()
+    elif choice == "4":
+        show_user()
+    elif choice == "5":
+        show_product()
+    elif choice == "6":
+        show_product()
+        calculate()
+        dicount()
+        receipt()
+    elif choice == "7":
+        print("-" * 86)
+        print(" "*35,"Exit Program")
+        print("-" * 86)
+    else:
+        print("Choice Not Found")
